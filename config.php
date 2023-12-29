@@ -1,33 +1,33 @@
 <?php
 
 return [
-    'start_timestamp' => strtotime('2019-08-08 08:08:08') * 1000,
+    'start_timestamp' => strtotime(env('SNOWFLAKE_START_DATE', '2019-08-08 08:08:08')) * 1000,
 
     // snowflake, sonyflake
-    'variant' => 'snowflake',
+    'variant' => env('SNOWFLAKE_VARIANT', 'snowflake'),
 
     'variants' => [
         'snowflake' => [
-            'datacenter' => 0,
-            'worker_id' => 0,
+            'datacenter' => env('SNOWFLAKE_DATACENTER_ID', 0),
+            'worker_id' => env('SNOWFLAKE_WORKER_ID', 0),
         ],
 
         'sonyflake' => [
-            'machine_id' => 0,
+            'machine_id' =>  env('SNOWFLAKE_WORKER_ID', 0),
         ],
     ],
 
     // cache, file, random
-    'resolver' => 'random',
+    'resolver' => env('SNOWFLAKE_RESOLVER', 'random'),
 
     'resolvers' => [
         'file' => [
-            'lock_file_dir' => storage_path('framework/snowflake'),
+            'lock_file_dir' => env('SNOWFLAKE_FILE_RESOLVER_LOCK_DIR', storage_path('framework/snowflake')),
         ],
 
         'cache' => [
-            'store' => null,
-            'prefix' => 'snowflake_',
+            'store' => env('SNOWFLAKE_CACHE_RESOLVER_STORE', null),
+            'prefix' => env('SNOWFLAKE_CACHE_RESOLVER_PREFIX', 'snowflake_'),
         ],
     ],
 ];
