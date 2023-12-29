@@ -15,8 +15,6 @@ use Illuminate\Support\ServiceProvider;
 
 class SnowflakeableServiceProvider extends ServiceProvider
 {
-    public const DEFAULT_START_DATE = '2023-12-29';
-
     public function register(): void
     {
         $this->app->singleton(SequenceResolver::class, function (Application $app) {
@@ -48,7 +46,10 @@ class SnowflakeableServiceProvider extends ServiceProvider
                 ),
             };
 
-            $snowflake->setStartTimeStamp(strtotime(config('snowflake.start_date', self::DEFAULT_START_DATE))*1000);
+            $start_timestamp = config('snowflake.start_date');
+            if($start_timestamp) {
+                $snowflake->setStartTimeStamp($start_timestamp);
+            }
             $snowflake->setSequenceResolver($app->make(SequenceResolver::class));
 
             return $snowflake;

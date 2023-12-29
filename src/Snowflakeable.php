@@ -30,14 +30,14 @@ trait Snowflakeable
     /**
      * Gets first model by snowflake
      */
-    public static function bySnowflake(string $snowflake): self
+    public static function bySnowflake(string $snowflake): ?self
     {
         return static::whereSnowflakeId($snowflake)->first();
     }
 
-    public function regenerateSnowflake(\DateTime $for = null, bool $check_for_snowflake_duplicates = null): void
+    public function regenerateSnowflake(\DateTime $for = null, bool $check_for_snowflake_duplicates = null): int
     {
-        $this->{$this->getSnowflakeField()} = $this->snowflakeGenerate($for, $check_for_snowflake_duplicates);
+        return $this->{$this->getSnowflakeField()} = $this->snowflakeGenerate($for, $check_for_snowflake_duplicates);
     }
 
     /**

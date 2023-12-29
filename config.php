@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'start_date' => '2023-12-29',
+    'start_timestamp' => strtotime('2019-08-08 08:08:08') * 1000,
 
     // snowflake, sonyflake
     'variant' => 'snowflake',
