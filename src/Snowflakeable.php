@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @method static self whereSnowflakeId(string $snowflake)
+ * @method static self whereSnowflake(string $snowflake)
  * @property-read ParsedSnowflake $snowflake
  */
 trait Snowflakeable
@@ -32,7 +32,7 @@ trait Snowflakeable
      */
     public static function bySnowflake(string $snowflake): ?self
     {
-        return static::whereSnowflakeId($snowflake)->first();
+        return static::whereSnowflake($snowflake)->first();
     }
 
     public function regenerateSnowflake(\DateTime $for = null, bool $check_for_snowflake_duplicates = null): int
@@ -53,7 +53,7 @@ trait Snowflakeable
      * @param $snowflake
      * @return mixed
      */
-    public function scopeWhereSnowflakeId($query, $snowflake): mixed
+    public function scopeWhereSnowflake($query, $snowflake): mixed
     {
         return $query->where($this->getTable().'.'.$this->getSnowflakeField(), $snowflake);
     }
