@@ -5,12 +5,11 @@ namespace KDuma\Eloquent;
 use Godruoyi\Snowflake\IdGenerator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
  * @method static self whereSnowflakeId(string $snowflake)
- * @property-read array $snowflake
+ * @property-read ParsedSnowflake $snowflake
  */
 trait Snowflakeable
 {
@@ -87,19 +86,23 @@ trait Snowflakeable
         }
     }
 
-
     protected function snowflake(): Attribute
     {
         return Attribute::make(get: function () {
             $id = $this->{$this->getSnowflakeField()};
 
-            $parsed = app(IdGenerator::class)->parseId($id, true);
-            $parsed['timestamp'] = app(IdGenerator::class)->toMicrotime($parsed['timestamp']);
+            $generator = app(IdGenerator::class);
 
-            return [
-                'id' => (int) $id,
-                'created_at' => new Carbon('@'.$parsed['timestamp']/1000),
-            ] + $parsed;
+            $parsed = $generator->parseId($id, true);
+            $parsed['timestamp'] = $generator->toMicrotime($parsed['timestamp']);
+
+            return new ParsedSnowflake(
+                id: (int) $id,
+                timestamp: $parsed['timestamp'] ?? 0,
+                datacenter: $parsed['datacenter'] ?? 0,
+                worker: $parsed['workerid'] ?? $parsed['machineid'] ?? 0,
+                sequence: $parsed['sequence'] ?? 0,
+            );
         });
     }
 }
