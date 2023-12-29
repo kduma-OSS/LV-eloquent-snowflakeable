@@ -3,11 +3,12 @@
 namespace KDuma\Eloquent;
 
 use Godruoyi\Snowflake\FileLockResolver;
+use Godruoyi\Snowflake\IdGenerator;
 use Godruoyi\Snowflake\LaravelSequenceResolver;
 use Godruoyi\Snowflake\RandomSequenceResolver;
 use Godruoyi\Snowflake\SequenceResolver;
 use Illuminate\Contracts\Cache\Factory;
-use KDuma\Eloquent\Internal\Snowflake;
+use Godruoyi\Snowflake\Snowflake;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,7 +35,7 @@ class SnowflakeableServiceProvider extends ServiceProvider
                 default => new RandomSequenceResolver()
             };
         });
-        $this->app->singleton(Snowflake::class, function (Application $app) {
+        $this->app->singleton(IdGenerator::class, function (Application $app) {
             $snowflake = new Snowflake(
                 datacenter: (int) config('snowflake.datacenter', 0),
                 workerId: (int) config('snowflake.worker_id', 0)

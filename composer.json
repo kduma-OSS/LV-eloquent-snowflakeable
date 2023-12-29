@@ -1,4 +1,10 @@
 {
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/kduma-forks/godruoyi---php-snowflake.git"
+        }
+    ],
     "name": "kduma/eloquent-snowflakeable",
     "description": "Eases using and generating SnowFlake ID's in Laravel Eloquent models.",
     "keywords": [
@@ -15,7 +21,7 @@
     ],
     "require": {
         "php": ">=8.1",
-        "godruoyi/php-snowflake": "^3.0"
+        "godruoyi/php-snowflake": "dev-snowflake-forid"
     },
     "autoload": {
         "psr-4": {
